@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Promise的resolve/reject方法被传参到别处啦</title>
+    </head>
+    <body>
+        <script type="text/javascript">
+            let testArray = [];
+            let p1 = new Promise((resolve, reject) => { testArray.push(resolve) });
+            let p2 = new Promise((resolve, reject) => { testArray.push(resolve) });
+            console.log(p1);
+            console.log(p2);
+            console.log(testArray);
+            testArray[1]('p2');
+            console.log(p1);
+            console.log(p2);
+            console.log(testArray);
+        </script>
+    </body>
+</html>

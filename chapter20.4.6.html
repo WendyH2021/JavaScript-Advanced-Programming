@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>读取拖放文件</title>
+    </head>
+    <body>
+        <div id="droptarget" style="width: 500px; height:200px; border: 1px solid black;"></div>
+        <div id="output"></div>
+        <script>
+            let droptarget = document.getElementById("droptarget");
+            function handleEvent(event) {
+                let info = "",
+                    output = document.getElementById("output"),
+                    files, i, len;
+
+                event.preventDefault();
+
+                if (event.type == "drop") {
+                    files = event.dataTransfer.files;
+                    i = 0;
+                    len = files.length;
+
+                    while (i < len) {
+                        info += `${files[i].name} (${files[i].type}, ${files[0].size} bytes)<br>`;
+                        i++;
+                    }
+
+                    output.innerHTML = info;
+                }
+            }
+            droptarget.addEventListener("dragenter", handleEvent);
+            droptarget.addEventListener("dragover", handleEvent);
+            droptarget.addEventListener("drop", handleEvent);
+        </script>
+    </body>
+</html>

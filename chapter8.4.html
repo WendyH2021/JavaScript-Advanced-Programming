@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>类</title>
+    </head>
+    <body>
+        <script>
+            // let Person = class PersonName {
+            //     name = "name";
+            //     myname = "myname";
+            //     identify() {
+            //         console.log(Person.name, PersonName.name);
+            //     }
+            // }
+            // let p = new Person();
+            // p.identify();
+            // console.log(p.name);
+            // console.log(p.myname);
+            // console.log(Person.name);
+            // console.log(Person.myname);
+            // console.log(PersonName.name);
+
+            // 类构造函数
+            // class Animal {
+            //     constructor(name, age) {
+            //         this.name = name;
+            //         this.age = age;
+            //         this.sayAge = function () {
+            //             console.log(this.age);
+            //         };
+            //     }
+
+            //     sayName() {
+            //         console.log("I am a Animal");
+            //     }
+            // }
+
+            // function Vegetable(name, age) {
+            //     this.name = name;
+            //     this.age = age;
+            //     function sayAgeTest() {
+            //         console.log("vegetable***********");
+            //     }
+            //     sayAgeTest();
+            //     this.sayAge = sayAgeTest;
+            // }
+
+            // console.log("**********begin*************")
+            // let animal = new Animal("monkey", 19);
+            // let vegetable = new Vegetable("potato", 2);
+            // let person = {  // 一次性对象
+            //     name: "wendy",
+            //     age: 24,
+            //     sayAge() {
+            //         console.log(this.age);
+            //     }
+            // };
+            // console.log(animal);
+            // console.log(vegetable);
+            // console.log(person);
+            // animal.sayAge();
+            // vegetable.sayAge();
+            // sayAgeTest();
+            // person.sayAge();
+
+            // 类定义也支持获取和设置访问器。
+            // class Person {
+            //     set name(newName) {
+            //         this.name_ = newName;
+            //     }
+
+            //     get name() {
+            //         return this.name_;
+            //     }
+            // }
+
+            // let p = new Person();
+            // let p2 = new Person();
+            // p.name = 'Jake';
+            // p2.name_ = 'John';
+            // console.log('p2: ' + p2.name_);
+            // console.log('p: ' + p.name);
+            // console.log('p2: ' + p2.name);
+            // console.log(Person.prototype.name);
+            // console.log(p);
+
+            class Person {
+                constructor() {
+                    // 添加到this的所有内容都会存在于不同的实例上
+                    this.locate = () => console.log('instance**', this);
+                }
+
+                // 定义在类的原型对象上
+                locate() {
+                    console.log('prototype**', this);
+                }
+
+                // 定义在类本身上
+                static locate() {
+                    console.log('class**', this);
+                }
+            }
+
+            let p = new Person();
+            p.locate();
+            Person.prototype.locate();
+            Person.locate();
+
+            // class Person {
+            //     constructor(age) {
+            //         this.age_ = age;
+            //     }
+
+            //     sayAge() {
+            //         console.log(this.age_);
+            //     }
+
+            //     static create() {
+            //         // 使用随机年龄创建并返回一个Person实例
+            //         return new Person(Math.floor(Math.random()*100))
+            //     }
+            // }
+            // console.log(Person.create());
+
+            // // 继承
+            // class Vehicle {
+            //     constructor() {
+            //         this.hasEngine = true;
+            //     }
+
+            //     static identify() {
+            //         console.log("vehicle");
+            //     }
+
+            //     sayName() {
+            //         console.log("This is a Vehicle");
+            //     }
+            // }
+
+            // class Bus extends Vehicle {
+            //     constructor() {
+            //         // 不要在调用super() 之前引用this, 否则会抛出 ReferenceError
+            //         super();  // 相当于super.constructor()
+            //         this.name = "Bus";
+            //         this.age = 18;
+            //         console.log(this);
+            //     }
+
+            //     static identify() {
+            //         super.identify();
+            //     }
+
+            //     sayAge() {
+            //         console.log(this.age);
+            //     }
+            // }
+
+            // let bus = new Bus();
+            // console.log(bus);
+            // Bus.identify();
+        </script>
+    </body>
+</html>

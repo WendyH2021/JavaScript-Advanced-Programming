@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>计时API</title>
+    </head>
+    <body>
+        <script>
+            // // Date.now() 方法只适用于日期时间相关操作，而且是不要求计时精度的操作
+            // const t0 = Date.now();
+            // for (let i = 0; i < 1E6; i++) { }
+            // const t1 = Date.now();
+            // const duration1 = t1 - t0;
+            // console.log("Date.now duration" + duration1);
+
+            // // High Resolution Time API
+            // const t2 = performance.now();
+            // for (let i = 0; i < 1E6; i++) { }
+            // const t3 = performance.now();
+            // console.log("performance.now " + t2);
+            // console.log("performance.now " + t3);
+            // const duration2 = t3 - t2;
+            // console.log("performance.now duration" + duration2);
+            
+            // const absoluteTimestamp = performance.timeOrigin + performance.now();
+            // console.log("absoluteTimeStamp " + absoluteTimestamp);
+
+            // // Performance Timeline API
+            // // 1. User Timing API
+            // performance.mark('foo');
+            // for (let i = 0; i < 1E6; i++) { }
+            // performance.mark('bar');
+            // const [startMark, endMark] = performance.getEntriesByType("mark");
+            // const duration3 = endMark.startTime - startMark.startTime;
+            // console.log("User Timing API " + duration3);
+
+            // // PerformanceMeasure
+            // performance.mark('foo');
+            // for (let i = 0; i < 1E6; i++) { }
+            // performance.mark('bar');
+            // performance.measure('baz', 'foo', 'bar');
+            // const [differenceMark] = performance.getEntriesByType('measure');
+            // console.log(differenceMark);
+
+            // 2. Navigation Timing API
+            // const [performanceNavigationTimingEntry] = performance.getEntriesByType("navigation");
+            // console.log(performanceNavigationTimingEntry);
+
+            // 3. Resource Timing API
+            // 实践结果：undefined
+            // 个人理解：因为没有请求resource，所以结果为 undefined
+            const performanceResourceTimingEntry = performance.getEntriesByType('resource')[0];
+            console.log(performanceResourceTimingEntry);
+        </script>
+    </body>
+</html>

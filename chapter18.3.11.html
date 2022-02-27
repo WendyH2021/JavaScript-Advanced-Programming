@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>合成</title>
+    </head>
+    <body>
+        <canvas id="drawing" width="500px" height="500px">
+            A drawing of something
+        </canvas>
+        <script>
+            let drawing = document.getElementById("drawing");
+            if(drawing.getContext) {
+                let context = drawing.getContext("2d");
+                // 绘制红色矩形
+                context.fillStyle = "#ff0000";
+                context.fillRect(10, 10, 50, 50);
+                // 修改全局透明度
+                // context.globalAlpha = 0.5;
+                // 设置合成方式
+                context.globalCompositeOperation = "xor";
+                // 绘制蓝色矩形
+                context.fillStyle = "rgba(0, 0, 255, 1)";
+                context.fillRect(30, 30, 50, 50);
+                // 重置
+                // context.globalAlpha = 0;
+            }
+        </script>
+    </body>
+</html>

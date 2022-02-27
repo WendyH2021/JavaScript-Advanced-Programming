@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>chapter 3.4</title>
+    </head>
+    <body>
+        <script>
+            // console.log(RegExp.prototype[Symbol.match]);
+            // console.log('foo1bar'.match(/bar/))
+
+            // // Symbol.toPrimitive
+            // class Foo {}
+            // let foo = new Foo ();
+            // console.log(3 + foo);
+            // console.log(3 - foo);
+            // console.log(String(foo));
+
+            // class Bar {
+            //     constructor() {
+            //     }
+            //     [Symbol.toPrimitive] (hint) {
+            //     console.log(hint);
+            //         switch (hint) {
+            //             case 'number': return 3;
+            //             case 'string': return 'string bar';
+            //             case 'default': 
+            //             default: return 'default bar';
+            //         }
+            //     }
+            // } 
+            // let bar = new Bar();
+            // console.log(3 + bar);
+            // console.log(3 - bar);
+            // console.log(String(bar));
+
+            // infinity
+            // console.log(isFinite(1));
+            // console.log(isFinite(Number.POSITIVE_INFINITY));
+            // console.log(0 * Number.POSITIVE_INFINITY);
+
+            // // Math.pow()
+            // console.log(Math.pow(3,2));
+            // console.log(3 ** 2);
+
+            // // Equal
+            // console.log(null == undefined);
+            // console.log(undefined == 0);
+            // console.log(null == 0);
+
+            // // const
+            // for(const key in {a:1, b:2}){
+            //     console.log(key);
+            // }
+            // for(const value of [1,2,3,4,5]){
+            //     console.log(value);
+            // }
+
+            // let test;
+            // console.log(test);
+            // if(test){
+            //     console.log("if");
+            // }else{
+            //     console.log("else");
+            // }
+
+            // let name = new String("Matt");
+            // name.age = 27;
+            // console.log(name);
+            // console.log(name.age);
+            // console.log(name + name.age);
+
+            // // 4.2.1 作用域链增强
+            // function buildUrl() {
+            //     let qs = "?debug=ture";
+            //     with(location){
+            //         //let url = href + qs;  Uncaught ReferenceError: url is not defined
+            //         var url = href + qs;
+            //     }
+            //     return url;
+            // }
+            // let myurl = buildUrl();
+            // console.log(myurl);
+
+            // // var 声明提升
+            // console.log(myname);
+            // var myname = "Wendy";
+            // console.log(myname);
+
+            // // RegExp
+            // let pattern = new RegExp("\\[bc\\]at", "gi");
+            // console.log(pattern.valueOf());
+
+            // // 原始值包装类型
+            // let s1 = "some text";
+            // let s2 = s1.substring(1);
+            // console.log(s2);
+
+            // // 迭代字符串可以智能地识别代理对的码点
+            // console.log([..."ab☺de"]);
+
+            // 字符串迭代与解构
+            // let message = "abc";
+            // let stringIterator = message[Symbol.iterator]();
+            // console.log(stringIterator.next());
+            // console.log(stringIterator.next());
+            // console.log(stringIterator.next());
+            // console.log(stringIterator.next());
+
+            // console.log([...message]);
+
+            // 第二个参数是字符串的情况下，有几个特殊的字符序列，可以用来插入正则表达式操作的值
+            // let text = "cat, bat, sat, fat";
+            // result = text.replace(/(.at)/g, "word ($`)");
+            // console.log(result);
+
+            // replace() 的第二个参数可以是一个函数
+            // function htmlEscape(text) {
+            //     return text.replace(/[<>"&]/g, function(match, pos, originalText) {
+            //         switch(match) {
+            //             case "<": return "&lt;";
+            //             case ">": return "&gt;";
+            //             case "&": return "&amp;";
+            //             case "\"": return "&quot;";
+            //         }
+            //     });
+            // }
+            // console.log(htmlEscape("<p class=\"greeting\">Hello World!</p>"));
+
+            // localeCompare() 方法
+            // function determineOrder(value) {
+            //     let stringValue = "yellow";
+            //     let result = stringValue.localeCompare(value);
+            //     console.log(result);
+            //     if (result < 0) {
+            //         console.log(`The string 'yellow' comes before the string '${value}'.`);
+            //     }else if (result > 0) {
+            //         console.log(`The string 'yellow' comes after the string '${value}'.`);
+            //     }else {
+            //         console.log(`The string 'yellow' is equal to the string '${value}'.`);
+            //     }
+            // }
+            // determineOrder("brick");
+            // determineOrder("yellow");
+            // determineOrder("zoo");
+            
+            // eval() 方法
+            // eval("function sayHi(){console.log('hi')}");
+            // sayHi();
+
+            // eval("let msg = 'hello world';");
+            // console.log(msg);
+
+            // Math 对象
+            // let values = [12, 2, 3, 4, 5, 6, 7, 8];
+            // let max = Math.max(...values);
+            // console.log(max);
+
+            // 函数实际上是Function类型的实例，也就是说函数也是对象
+            // function funcName (){
+            //     console.log("this is a function");
+            // }
+            // console.log(typeof funcName);
+            // console.log(funcName instanceof Object);
+            // console.log(funcName instanceof Function);
+
+            // let myname = "Wendy";
+            // console.log(typeof myname);
+            // console.log(myname instanceof Object);
+            // console.log(myname instanceof String);
+
+            // 数组空位
+            // const options = [,,,,,]; 
+            // console.log(options.length);
+            // console.log(options);
+            // console.log(...options);
+
+            // 检测数组
+            // let colors = ["red","yellow","blue"];
+            // console.log(...colors);
+            // console.log(typeof colors);
+            // console.log(colors instanceof Object);
+            // console.log(colors instanceof Array);
+
+            // 迭代器方法
+            // const a = ["foo", "bar", "baz", "qux"];
+            // console.log(a.keys());
+            // console.log(a.values());
+            // console.log(a.entries());
+            // console.log(a.keys().next());
+            // console.log(a.values().next());
+
+            // 因为这些方法都返回迭代器，所以可以将它们的内容
+            // 通过Array.from() 直接转换为数组实例
+            // const aKeys = Array.from(a.keys());
+            // const aValues = Array.from(a.values());
+            // const aEntries = Array.from(a.entries());
+
+            // console.log(aKeys);
+            // console.log(aValues);
+            // console.log(aEntries);
+
+            // unshift() 方法
+            // let colors = new Array();
+            // let count = colors.unshift("red", "green");
+            // alert(count);
+
+            // count = colors.unshift("black");
+            // alert(count);
+            // alert(colors);
+
+            // let item = colors.pop();
+            // alert(item);
+            // alert(colors.length);
+
+            // 断言函数
+            // const people = [
+            //     {
+            //         name: "Matt",
+            //         age: 27
+            //     },
+            //     {
+            //         name: "Nicholas",
+            //         age: 29
+            //     }
+            // ];
+            // console.log(people.find((element, index, array) => element.age > 27));
+            // console.log(people.findIndex((element, index, array) => element.age < 28));
+
+            // forEach()方法
+            // let numbers = [1, 2, 3, 4, 5, 4, 3, 2, 1];
+            // numbers.forEach((item, index, array) => {
+            //     numbers[1] = 19;
+            // });
+            // console.log(...numbers);
+
+            // DataView
+            // const buf = new ArrayBuffer(16);
+
+            // const secondHalfDataView = new DataView(buf, 8);
+            // alert(secondHalfDataView.byteOffset);
+            // alert(secondHalfDataView.byteLength);
+            // alert(secondHalfDataView.buffer === buf);
+
+            // 字节序
+            // const buf = new ArrayBuffer(2);
+            // const view = new DataView(buf);
+
+            // view.setUint16(0, 0x0002, true);
+            // alert(view.getUint8(0));
+            // alert(view.getUint8(1));
+
+            // SameValueZero 比较可能导致意想不到的冲突
+            // const m = new Map();
+
+            // const a = 0/"";
+            // const b = 1/"";
+            // const pz = +0;
+            // const nz = -0;
+
+            // m.set(a, "foo");
+            // m.set(pz, "bar");
+
+            // alert(m.get(b));
+            // alert(m.get(nz));
+
+            // 键和值在迭代器遍历时是可以修改的，但映射内部的引用则无法修改。当然，
+            // 这并不妨碍修改作为键或值的对象内部的属性，因为这样并不影响它们在映射实例中的身份
+            // let myArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+            // for(let element of myArray) {
+            //     console.log(...myArray);
+            //     element = 900;
+            //     console.log(element);
+            //     console.log(...myArray);
+            // }
+
+            // 对于期待可迭代对象的构造函数，只要传入一个可迭代对象就可以实现复制
+            // let map1 = new Map([[1, 2], [3, 4]]);
+            // let map2 = new Map(map1);
+
+            // console.log(map1);
+            // console.log(map2);
+            // console.log(map1 === map2);
+
+            // let arr1 = [{}];
+            // let arr2 = [...arr1];
+            // arr1[0].foo = 'bar';
+            // console.log(arr2[0]);
+
+            // arr1[0] = "arr1";
+            // console.log(arr1);
+            // console.log(arr2);
+
+            // let arr1 = [1, 2, 3];
+            // let typedArr1 = Int16Array.of(...arr1);
+            // let typedArr2 = Int16Array.of(arr1);
+            // console.log(typedArr1);
+            // console.log(typedArr2);
+
+            // let arr1 = [1, 2, 3, 4, 5];
+            // let arr2 = [...arr1];
+            // console.log(...arr1);
+            // console.log(...arr2);
+            // arr2[1] = 900;
+            // console.log(...arr1);
+            // console.log(...arr2);
+
+            // 每个迭代器都表示对可迭代对象的一次性有序遍历。不同迭代器的实例相互之间没有联系，只会独立地遍历可迭代对象
+            // let arr = ['foo', 'bar', 'baz'];
+            // let iter1 = arr[Symbol.iterator]();
+            // let iter2 = iter1[Symbol.iterator]();
+            // console.log(iter1 === iter2);    // true
+            // console.log(iter1.next());
+            // console.log(iter2.next());
+            // console.log(iter2.next());
+            // console.log(iter1.next());
+
+            // 因为每个迭代器也实现了Iterable 接口，所以它们可以用在任何期待可迭代对象的地方
+            // let arr = [3, 1, 4];
+            // let iter = arr[Symbol.iterator]();
+
+            // for (let item of arr) { console.log(item); }
+            // for (let item of iter) { console.log(item); }    
+            // for (let item of iter) { console.log(item); }    //done: true, 不可迭代
+
+            // 提前终止迭代器，return() 方法必须返回一个有效的IteratorResult 对象，
+            // 简单情况下，可以只返回{done: true}
+            class Counter {
+                constructor(limit) {
+                    this.limit = limit;
+                }
+                [Symbol.iterator]() {
+                    let count = 1, limit = this.limit;
+                    return {
+                        next() {
+                            if (count <= limit){
+                                console.log("count <= limit");
+                                return {done: false, value: count++};
+                            } else {
+                                console.log("done: true")
+                                return {done: true};
+                            }
+                        },
+                        return() {
+                            console.log("Existing early");
+                            return {done: true};
+                        }
+                    };
+                }
+            }
+            // let counter1 = new Counter(5);
+            // for (let i of counter1) {
+            //     if (i > 2){
+            //         break;
+            //     }
+            //     console.log(i);
+            // }
+
+            // let counter3 = new Counter(5);
+            // let [a, b] = counter3;
+            // console.log([a, b]);
+
+            // 生成器，使用yield实现输入和输出
+            // function *generatorFn(initial) {
+            //     console.log(initial);
+            //     console.log(initial);
+            //     console.log(yield 1);
+            //     console.log(yield 3);
+            // }
+            // let generatorObject = generatorFn('foo');
+            // console.log(generatorFn("foo1"));
+            // console.log(generatorObject.next("bar"));
+            // console.log(generatorObject.next("baz"));
+            // console.log(generatorObject.next("xxx"));
+            // console.log(generatorObject.next("xxx"));
+
+            function *generatorFn(number) {
+                console.log('iter value:', yield* [1, 2, 3]);
+            }
+
+            for (const x of generatorFn()) {
+                console.log('value:', x);
+            }
+        </script>
+    </body>
+</html>

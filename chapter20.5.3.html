@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>自定义媒体播放器</title>
+    </head>
+    <body>
+        <div class="mediaplayer">
+            <div class="video">
+                <video id="player" src="videofrompanda.mp4" poster="myCover.png"
+                    width="300" height="200">
+                    Video player not available.
+                </video>
+            </div>
+            <div class="controls">
+                <input type="button" value="Play" id="video-btn">
+                <span id="curtime" style="background-color: lightblue;">0</span>
+                <span id="duration" style="background-color: lightseagreen;">0</span>
+            </div>
+        </div>
+        <script>
+            // 取得元素的引用
+            let player = document.getElementById("player"),
+                btn = document.getElementById("video-btn");
+                curtime = document.getElementById("curtime");
+                duration = document.getElementById("duration");
+            
+            // 更新时长
+            player.addEventListener("canplaythrough", (event) => {
+                duration.innerHTML = player.duration;
+                console.log(player.duration);
+            });
+
+            // 为按钮添加事件处理程序
+            btn.addEventListener("click", (event) => {
+                if (player.paused) {
+                    player.play();
+                    btn.value = "Pause";
+                } else {
+                    player.pause();
+                    btn.value = "Play";
+                }
+            });
+
+            // 周期性更新当前时间
+            setInterval(() => {
+                curtime.innerHTML = player.currentTime;
+            }, 250);
+        </script>
+    </body>
+</html>

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>异步函数</title>
+    </head>
+    <body>
+        <script>
+            // async, 异步函数始终返回期约对象
+            // 异步函数的返回值期待一个实现 thenable 接口的对象，但常规的值也可以
+            // 返回一个原始值
+            // async function foo() {
+            //     return 'foo';
+            // }
+            // foo().then(console.log);
+
+            // // 返回一个没有实现thenable 接口的对象
+            // async function bar() {
+            //     return ['bar'];
+            // }
+            // bar().then(console.log);
+
+            // // 返回一个实现了 thenable接口的非期约对象
+            // async function baz() {
+            //     const thenable = {
+            //         then(callback) {
+            //             callback('baz');
+            //         }
+            //     };
+            //     return thenable;
+            // }
+            // baz().then(console.log);
+
+            // await，等待期约解决
+            // 等待一个原始值
+            // async function foo(){
+            //     console.log(await 'foo');
+            // }
+            // foo();
+
+            // // 等待一个没有实现thenable 接口的对象
+            // async function bar() {
+            //     console.log(await ['bar']);
+            // }
+            // bar();
+
+            // // 等待一个实现了thenable 接口的非期约对象
+            // async function baz() {
+            //     const thenable = {
+            //         then(callback) { callback('baz') }
+            //     };
+            //     console.log(await thenable);
+            // }
+            // baz();
+
+            // // 等待一个期约
+            // async function qux() {
+            //     console.log(await Promise.resolve('qux'));
+            // }
+            // qux();
+
+            // 对拒绝的期约使用await, 为什么会有这样的结果？？？
+            // 没有await 的执行结果
+            // 1
+            // 4
+            // 2
+            // 添加await 的执行结果
+            // 1
+            // 2
+            // 3
+            // async function foo() {
+            //     console.log(1);
+            //     await Promise.reject(3);
+            //     console.log(4);    // 这行代码不会执行
+            // }
+
+            // // 给返回的期约添加一个拒绝处理程序
+            // foo().catch(console.log);
+            // console.log(2);
+
+            // await 的限制，await 关键字只能直接出现在异步函数的定义中
+            // 不允许：await 出现在了箭头函数中
+            // function foo() {
+            //     const syncFn = () => {
+            //         return await Promise.resolve('foo');
+            //     }
+            //     console.log(syncFn());
+            // }
+
+            // 实现 sleep()，非阻塞的暂停
+            // 执行结果：
+            // synchronous
+            // 1503
+            // async function sleep(delay) {
+            //     return new Promise((resolve) => setTimeout(resolve, delay));
+            // }
+            // async function foo() {
+            //     const t0 = Date.now();
+            //     await sleep(1500);  // 暂停约1500 毫秒
+            //     console.log(Date.now() - t0);
+            // }
+            // foo();
+            // console.log("synchronous");
+
+            // 利用平行执行
+            // async function randomDelay(id) {
+            //     //延迟0~1000毫秒
+            //     const delay = Math.random() * 1000;
+            //     return new Promise((resolve) => setTimeout(() => {
+            //         setTimeout(console.log, 0, `${id} finished`);
+            //         resolve();
+            //         console.log(`${id} after resolve()`);
+            //     }, delay));
+            // }
+
+            // async function foo() {
+            //     const t0 = Date.now();
+
+            //     const p0 = randomDelay(0);
+            //     const p1 = randomDelay(1);
+            //     const p2 = randomDelay(2);
+            //     const p3 = randomDelay(3);
+            //     const p4 = randomDelay(4);
+
+            //     await p0;
+            //     await p1;
+            //     await p2;
+            //     await p3;
+            //     await p4;
+
+            //     setTimeout(console.log, 0, `${Date.now() - t0}ms elapsed`);
+            // }
+            // foo();
+
+            // 虽然期约没有按照顺序执行，但await 按顺序收到了每个期约的值
+            // async function randomDelay(id) {
+            //     // 延迟0~1000 毫秒
+            //     const delay = Math.random() * 1000;
+            //     return new Promise((resolve) => setTimeout(() => {
+            //         console.log(`${id} finished`);
+            //         resolve(id);
+            //     }, delay));
+            // }
+
+            // async function foo() {
+            //     const t0 = Date.now();
+            //     const promises = Array(5).fill(null).map((_, i) => randomDelay(i));
+            //     for(const p of promises) {
+            //         console.log(`awaited ${await p}`);
+            //     }
+            //     console.log(`${Date.now() - t0}ms elapsed`);
+            // }
+            // foo();
+
+            //串行执行期约
+            // function addTwo(x) { 
+            //     return x + 2; 
+            // }
+            // function addThree(x) {
+            //     return x + 3;
+            // }
+            // function addFive(x) {
+            //     return x + 5;
+            // }
+            // async function addTen(x) {
+            //     for(const fn of [addTwo, addThree, addFive]) {
+            //         x = await fn(x);
+            //     }
+            //     return x;
+            // }
+            // addTen(9).then(console.log);
+
+            // 栈追踪与内存管理
+            // function fooPromiseExecutor(resolve, reject) {
+            //     setTimeout(reject, 1000, 'bar');
+            // }
+            // function foo() {
+            //     new Promise(fooPromiseExecutor);
+            // }
+            // foo();
+
+            function fooPromiseExecutor(resolve, reject) {
+                setTimeout(reject, 1000, 'bar');
+            }
+
+            async function foo() {
+                await new Promise(fooPromiseExecutor);
+            }
+            foo();
+            
+        </script>
+    </body>
+</html>

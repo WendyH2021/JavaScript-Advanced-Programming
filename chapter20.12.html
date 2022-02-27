@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Web Cryptography API</title>
+    </head>
+    <body>
+        <script>
+            // crypto.getRandomValues()
+            // const array = new Uint8Array(1);
+
+            // for(let i=0; i<5; ++i) {
+            //     console.log(crypto.getRandomValues(array));
+            // }
+
+            // const fooArray = new Uint8Array(2 ** 16);
+            // console.log(window.crypto.getRandomValues(fooArray));
+
+            // const barArray = new Uint8Array(2 ** 16 + 1);
+            // console.log(window.crypto.getRandomValues(barArray));
+
+            // 取介于0和1之间的随机数
+            // function randomFloat() {
+            //     // 生成32位随机数
+            //     const fooArray = new Uint32Array(1);
+
+            //     // 最大值是 2^32 - 1
+            //     const maxUint32 = 0xFFFFFFFF;
+
+            //     // 用最大可能的值来除
+            //     return crypto.getRandomValues(fooArray)[0] / maxUint32;
+            // }
+
+            // console.log(randomFloat());
+
+            // console.log(crypto.subtle);
+
+            // 1.生成密码学摘要
+            // (async function() {
+            //     const textEncoder = new TextEncoder();
+            //     const message = textEncoder.encode('foo');
+            //     const messageDigest = await crypto.subtle.digest('SHA-256', message);
+
+            //     console.log(new Uint32Array(messageDigest));
+            //     console.log(messageDigest);
+            // })();
+
+            // (async function() {
+            //     const textEncoder = new TextEncoder();
+            //     const message = textEncoder.encode('foo');
+            //     const messageDigest = await crypto.subtle.digest('SHA-256', message);
+
+            //     const hexDigest = Array.from(new Uint8Array(messageDigest))
+            //         .map((x) => x.toString(16).padStart(2, '0')).join('');
+                
+            //     console.log(hexDigest);
+            // })();
+
+            // 软件公司通常会公开自己软件二进制安装包的摘要，
+            // 以便用户验证自己下载到的的确是该公司发布的版本,
+            // 而不是被恶意软件篡改过的版本
+            
+            // 下面的例子演示了下载FireFox v67.0，
+            // 通过SHA-512计算其散列，
+            // 再下载其SHA-512二进制验证摘要
+            // 最后检查两个十六进制字符串匹配
+            // (async function() {
+            //     const mozillaCdnUrl = 
+            //         '// download-origin.cdn.mozilla.net/pub/firefox/releases/67.0 /';
+            //     const firefoxBinaryFilename = 'linux-x86_64/en-US/firefox-67.0.tar.bz2';
+            //     const firefoxShaFilename = 'SHA512SUMS';
+
+            //     console.log('Fetching Firefox binary...');
+            //     const fileArrayBuffer = await (await fetch(mozillaCdnUrl + firefoxBinaryFilename))
+            //         .arrayBuffer();
+
+            //     console.log('Calculating Firefox digest...');
+            //     const firefoxBinaryDigest = await crypto.subtle.digest('SHA-512', fileArrayBuffer);
+            //     const firefoxHexDigest = Array.from(new Uint8Array(firefoxBinaryDigest))
+            //         .map((x) => x.toString(16).padStart(2, '0')).join('');
+                
+            //     console.log('Fetching published binary digests...');
+            //     // SHA文件包含此次发布的所有Firefox二进制文件的摘要
+            //     // 因此要根据其格式进制拆分
+            //     const shaPairs = (await (await fetch(mozillaCdnUrl + firefoxShaFilename)).text())
+            //         .split(/\n/).map((x) => x.split(/\s+/));
+
+            //     let verified = false;
+
+            //     console.log('Checking calculated digest against published digests...');
+            //     for(const [sha, filename] of shaPairs) {
+            //         if (filename === firefoxBinaryFilename) {
+            //             if (sha === firefoxHexDigest) {
+            //                 verified = true;
+            //                 break;
+            //             }
+            //         }
+            //     }
+
+            //     console.log('Verified:', verified);
+            // })();
+
+            // 5. 从主密钥派生密钥
+            // deriveBits() 方法
+            // (async function() {
+            //     const ellipticCurve = 'P-256';
+            //     const algoIdentifier = "ECDH";
+            //     const derivedKeySize = 128;
+
+            //     const params = {
+            //         name: algoIdentifier,
+            //         namedCurve: ellipticCurve
+            //     };
+
+            //     const keyUsages = ['deriveBits'];
+
+            //     const keyPairA = await crypto.subtle.generateKey(params, true, keyUsages);
+            //     const keyPairB = await crypto.subtle.generateKey(params, true, keyUsages);
+
+            //     // 从A 的公钥和B 的私钥派生密钥位
+            //     const deriveBitsAB = await crypto.subtle.deriveBits(
+            //         Object.assign({ public: keyPairA.publicKey}, params),
+            //         keyPairB.privateKey,
+            //         derivedKeySize
+            //     );
+
+            //     // 从B 的公钥和A 的私钥派生密钥位
+            //     const deriveBitsBA = await crypto.subtle.deriveBits(
+            //         Object.assign({public: keyPairB.publicKey}, params),
+            //         keyPairA.privateKey,
+            //         derivedKeySize
+            //     );
+
+            //     const arrayAB = new Uint32Array(deriveBitsAB);
+            //     const arrayBA = new Uint32Array(deriveBitsBA);
+
+            //     // 确保密钥数组相等
+            //     console.log(
+            //         arrayAB.length === arrayBA.length &&
+            //         arrayAB.every((val, i) => val === arrayBA[i])
+            //     );
+            // })();
+
+            // deriveKey() 方法
+            // (async function() {
+            //     const password = 'foobar';
+            //     const salt = crypto.getRandomValues(new Uint8Array(16));
+            //     const algoIdentifier = 'PBKDF2';
+            //     const keyFormat = 'raw';
+            //     const isExtractable = false;
+
+            //     const params = {name: algoIdentifier};
+
+            //     const masterKey = await window.crypto.subtle.importKey(
+            //         keyFormat,
+            //         (new TextEncoder()).encode(password),
+            //         params,
+            //         isExtractable,
+            //         ['deriveKey']
+            //     );
+
+            //     const deriveParams = {
+            //         name: 'AES-GCM',
+            //         length: 128
+            //     };
+
+            //     const derivedKey = await window.crypto.subtle.deriveKey(
+            //         Object.assign({salt, iterations: 1E5, hash: 'SHA-256'}, params),
+            //         masterKey,
+            //         deriveParams,
+            //         isExtractable,     
+            //         ['encrypt']
+            //     );
+
+            //     console.log(derivedKey);
+            // })();
+
+            // 使用非对称密钥签名和验证消息
+            // (async function() {
+            //     const keyParams = {
+            //         name: 'ECDSA',
+            //         namedCurve: 'P-256'
+            //     };
+
+            //     const keyUsages = ['sign', 'verify'];
+
+            //     const {publicKey, privateKey} = await crypto.subtle.generateKey(keyParams, true,
+            //         keyUsages);
+
+            //     const message = (new TextEncoder()).encode('I am Satoshi Nakamoto');
+
+            //     const signParams = {
+            //         name: 'ECDSA',
+            //         hash: 'SHA-256'
+            //     };
+
+            //     const signature = await crypto.subtle.sign(signParams, privateKey, message);
+
+            //     console.log(new Uint32Array(signature));
+
+            //     const verified = await crypto.subtle.verify(signParams, publicKey, signature,
+            //         message);
+
+            //     console.log(verified);
+            // })();
+
+            // 7. 使用对称密钥加密和解密
+            // (async function() {
+            //     const algoIdentifier = 'AES-CBC';
+
+            //     const keyParams = {
+            //         name: algoIdentifier,
+            //         length: 256
+            //     };
+
+            //     const keyUsages = ['encrypt', 'decrypt'];
+
+            //     const key = await crypto.subtle.generateKey(keyParams, true, keyUsages);
+
+            //     const originalPlaintext = (new TextEncoder()).encode('I am Satoshi Nakamoto');
+
+            //     const encryptDecryptParams = {
+            //         name: algoIdentifier,
+            //         iv: crypto.getRandomValues(new Uint8Array(16))
+            //     };
+
+            //     const ciphertext = await crypto.subtle.encrypt(encryptDecryptParams, key, 
+            //         originalPlaintext);
+
+            //     console.log(ciphertext);
+
+            //     const decryptedPlaintext = await crypto.subtle.decrypt(encryptDecryptParams, key,
+            //         ciphertext);
+
+            //     console.log((new TextDecoder()).decode(decryptedPlaintext));
+            // })();
+
+            // 8. 包装和解包密钥
+            (async function() {
+                const keyFormat = 'raw';
+                const extractable = 'true';
+
+                const wrappingKeyAlgoIdentifier = 'AES-KW';
+                const wrappingKeyUsages = ['wrapKey', 'unwrapKey'];
+                const wrappingKeyParams = {
+                    name: wrappingKeyAlgoIdentifier,
+                    length: 256
+                };
+
+                const keyAlgoIdentifier = 'AES-GCM';
+                const keyUsages = ['encrypt'];
+                const keyParams = {
+                    name: keyAlgoIdentifier,
+                    length: 256
+                };
+
+                const wrappingKey = await crypto.subtle.generateKey(wrappingKeyParams,
+                    extractable, wrappingKeyUsages);
+                
+                console.log(wrappingKey);
+
+                const key = await crypto.subtle.generateKey(keyParams, extractable, keyUsages);
+
+                console.log(key);
+
+                const wrappedKey = await crypto.subtle.wrapKey(keyFormat, key, wrappingKey,
+                    wrappingKeyAlgoIdentifier);
+
+                console.log(wrappedKey);
+
+                const unwrappedKey = await crypto.subtle.unwrapKey(keyFormat, wrappedKey, 
+                    wrappingKey, wrappingKeyParams, keyParams, extractable, keyUsages);
+
+                console.log(unwrappedKey);
+            })();
+        </script>
+    </body>
+</html>

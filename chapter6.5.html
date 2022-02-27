@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>WeakMap DOM 节点元数据</title>
+    </head>
+    <body>
+        <div>below is a button</div>
+        <button id="login">Login</button>
+        <div>above was a button</div>
+        <script>
+            const wm = new WeakMap();
+
+            let loginButton = document.querySelector('#login');
+
+            // 给这个节点关联一些元数据
+            wm.set(loginButton, {disabled: true});
+
+            console.log(wm);
+
+            console.log('----------after remove Node from DOM tree-----------');
+            document.body.removeChild(loginButton);
+            console.log(loginButton);
+            console.log(wm);
+
+            console.log('--------after loginButton = null----------');
+            loginButton = null;
+            console.log(loginButton);
+            console.log(wm);
+            setTimeout(console.log, 10000, wm);
+        </script>
+    </body>
+</html>

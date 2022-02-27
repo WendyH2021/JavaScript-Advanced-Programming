@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>const 声明</title>
+    </head>
+    <body>
+        <script>
+            // Uncaught TypeError: Assignment to constant variable.
+            // for (const i = 0; i < 10; ++i) {
+            //     console.log(i);
+            // }
+
+            for (const key in {a:1, b:2}) {
+                console.log(key);
+            }
+            // a, b
+
+            const i = 2;
+            const i2 = i + 1;  // i2 no change, no error
+            console.log(i2);
+
+            // 也许next cycle 实现规则是
+            // const i2 = i
+            // const i2 = i2 + 1  --> const change --> error
+
+            // const key2 = b  --> no change
+        </script>
+    </body>
+</html>

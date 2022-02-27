@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>期约扩展</title>
+    </head>
+    <body>
+        <button id="start">Start</button>
+        <button id="cancel">Cancel</button>
+        <script>
+            // 1. 期约取消
+            // class CancelToken {
+            //     constructor(cancelFn) {  // 传入一个函数名
+            //         this.promise = new Promise((resolve, reject) => {
+            //             cancelFn(() => {  // 传参 调用函数，恰好此函数参数也是一个函数
+            //                 setTimeout(console.log, 0, "delay cancelled");
+            //                 resolve();
+            //             });
+            //         });
+            //     }
+            // }
+            // const startButton = document.querySelector('#start');
+            // const cancelButton = document.querySelector('#cancel');
+            // function cancellableDelayedResolve(delay) {
+            //     setTimeout(console.log, 0, "set delay");
+            //     return new Promise((resolve, reject) => {
+            //         const id = setTimeout(() => {
+            //             setTimeout(console.log, 0, "delayed resolve");
+            //             resolve();
+            //         }, delay);
+
+            //         // cancelCallback 是一个函数，当click button则调用此函数
+            //         const cancelToken = new CancelToken((cancelCallback) =>
+            //             cancelButton.addEventListener("click", cancelCallback));
+                    
+            //         cancelToken.promise.then(() => clearTimeout(id));
+            //     });
+            // }
+            // startButton.addEventListener("click", () => cancellableDelayedResolve(1000));
+
+            // 2. 期约进度通知
+            class TrackablePromise extends Promise {
+                constructor(executor) {
+                    const notifyHandlers = [];
+                    super((resolve, reject) => {
+                        // 执行这样一份期约，需要 handler and status
+                        return executor(resolve, reject, (status) => {
+                            notifyHandlers.map((handler) => handler(status));
+                        });
+                    });
+                    this.notifyHandlers = notifyHandlers;
+                }
+
+                notify(notifyHandler) {
+                    this.notifyHandlers.push(notifyHandler);
+                    return this;
+                }
+            }
+
+            // 控制期约 status
+            let p = new TrackablePromise((resolve, reject, notify) => {
+                function countdown(x) {
+                    if (x >0) {
+                        notify(`${20 * x}% remaining`);  // 函数调用
+                        setTimeout(() => countdown(x -1), 1000);
+                    } else {
+                        resolve();
+                    }
+                }
+                countdown(5);
+            });
+
+            // 控制handler, 即notify here
+            p.notify((x) => setTimeout(console.log, 0, 'progress:', x));
+            p.then(() => setTimeout(console.log, 0, 'completed'));
+        </script>
+    </body>
+</html>

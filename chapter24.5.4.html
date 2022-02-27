@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Request 对象</title>
+    </head>
+    <body>
+        <script>
+            let r1 = new Request('https://foo.com',{method: 'POST', body: 'foobar'});
+            let r2 = new Request(r1);
+            console.log(r1.bodyUsed);
+            console.log(r2.bodyUsed);
+        </script>
+    </body>
+</html>

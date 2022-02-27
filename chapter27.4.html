@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>CacheStorage</title>
+    </head>
+    <body>
+        <script>
+            const workerScript = `
+            // 打开新缓存v1
+            // 检查缓存v1是否存在
+            // 检查不存在的缓存v2
+
+            caches.open('v1');
+            .then(() => caches.has('v1'))
+            .then(console.log)
+            .then(() => caches.has('v2'))
+            .then(console.log);
+
+            // 打开新缓存v3
+            // 检查缓存v3是否存在
+            // 删除缓存v3
+            // 再次检查缓存v3是否存在
+
+            caches.open('v3')
+            .then(() => caches.has('v3'))
+            .then(console.log)
+            .then(() => caches.delete('v3'))
+            .then(() => caches.has('v3'))
+            .then(console.log);
+
+            // 打开缓存v4、v5和v6
+            // 检查当前缓存的键
+            // 注意：缓存键按创建顺序输出
+
+            caches.open('v4')
+            .then(() => caches.open('v5'))
+            .then(() => caches.open('v6'))
+            .then(() => caches.keys())
+            .then(console.log);
+
+            // match()方法
+            // 创建一个请求键和两个响应值
+            const request = new Request('');
+            const response1 = new Response('v7');
+            const response2 = new Response('v8');
+
+            // 用同一个键创建两个缓存对象，最终会先找到v7
+            // 因为它排在caches.keys()输出的前面
+            caches.open('v7')
+            .then((v7cache) => v7cache.put(request, response1))
+            .then(() => caches.open('v8'))
+            .then((v8cache) => v8cache.put(request, response2))
+            .then(() => caches.match(request))
+            .then((response) => response.text())
+            .then(console.log);
+            `;
+        </script>
+    </body>
+</html>

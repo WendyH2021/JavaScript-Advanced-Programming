@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>原子操作基础</title>
+    </head>
+    <body>
+        <script>
+            // 创建大小为1的缓冲区
+            // 因为SharedArrayBuffer已被各大浏览器禁用，所以改用ArrayBuffer
+            let sharedArrayBuffer = new ArrayBuffer(2);
+
+            // 基于缓冲创建Uint8Array
+            let typedArray = new Uint16Array(sharedArrayBuffer);
+
+            // 所有ArrayBuffer全部初始化为0
+            console.log(typedArray);
+
+            const index = 0;
+            const increment = 5;
+
+            // 对索引0处的值执行原子加5
+            Atomics.add(typedArray, index, increment);
+
+            console.log(typedArray);
+
+            // 对索引0处的值执行原子减5
+            Atomics.sub(typedArray, index, increment);
+
+            console.log(typedArray);
+        </script>
+    </body>
+</html>

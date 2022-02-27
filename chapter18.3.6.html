@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>绘制图像</title>
+    </head>
+    <body>
+        <img src="./smile.PNG" alt="smile pic" style="display: none;" />
+        <canvas id="drawing" width="500px" height="500px" style="border:1px solid black;">
+            A drawing of something.
+        </canvas>
+        <script>
+            let image = document.images[0];
+            let drawing = document.getElementById("drawing");
+            if(drawing.getContext) {
+                let context = drawing.getContext("2d");
+                image.onload = function() {  // 需要使用image.onload 确保image loaded 之后再执行绘制
+                    // context.drawImage(image, 10, 10);
+                    // context.drawImage(image, 50, 10, 20, 30);
+                    context.drawImage(image, 0, 100, 100, 100, 0, 100, 200, 300);
+                };
+            }
+        </script>
+    </body>
+</html>

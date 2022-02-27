@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>代理与反射</title>
+    </head>
+    <body>
+        <script>
+            // const target = {
+            //     foo: "bar"
+            // };
+
+            // const handler = {
+            //     // 捕获器在处理程序对象中以方法名为键
+            //     get() {
+            //         return "handler override";
+            //     }
+            // };
+
+            // const proxy = new Proxy(target, handler);
+
+            // console.log(target.foo);
+            // console.log(proxy.foo);
+
+            // console.log(target['foo']);
+            // console.log(proxy['foo']);
+
+            // console.log(Object.create(target)['foo']);
+            // console.log(Object.create(proxy)['foo']);
+
+            // console.log(handler);
+            // console.log(proxy);
+
+            // const o = {};
+            // const o1 = {};
+            // console.log(Object.defineProperty(o, 'foo', {value:'bar'}));  // {foo: "bar"}
+            // console.log(Reflect.defineProperty(o1, 'foo', {value: 'bar'}));  // true
+
+            // const wm = new WeakMap();
+
+            // class User {
+            //     constructor(userId) {
+            //         wm.set(this, userId);
+            //     }
+
+            //     set id(userId) {
+            //         wm.set(this, userId);
+            //     }
+
+            //     get id() {
+            //         return wm.get(this);
+            //     }
+            // }
+
+            // const UserClassProxy = new Proxy(User, {});
+            // const proxyUser = new UserClassProxy(456);
+            // console.log(proxyUser.id);
+
+            // instanceof()
+            // class Target {
+            //     constructor(id) {
+            //         this.id = id;
+            //     }
+            // }
+            // const target = new Target('target**');
+            // const handler = {};
+            // const proxy = new Proxy(target, handler);
+            // console.log(proxy instanceof Target);  // true, 代理对象是目标对象的实例
+            // console.log(target instanceof Proxy);  // TypeError, Function has non-object prototype
+            // console.log(proxy instanceof Proxy);
+
+            // 代理与内部槽位
+            // const target = new Date();
+            // const proxy = new Proxy(target, {});
+            // console.log(proxy instanceof Date);  // true
+            // console.log(target.getDate());
+            // console.log(proxy.getDate());  // TypeError: 'this' is not a Date object
+
+            // get()
+            // const myTarget = { 
+            //     foo: 'foo**',
+            // };
+            // const proxy = new Proxy(myTarget, {
+            //     get() {  // 只要代理对象方法本身不需要用到参数，则可以省略函数参数
+            //         console.log('get()');
+            //         return Reflect.get(...arguments);
+            //     }
+            // });
+            // console.log(proxy.foo);
+            // console.log(proxy['foo']);
+            // myTarget.foo = 'foo##';
+            // console.log(Object.create(proxy)['foo']);  // 创建了另外一个代理对象，但代理同一个目标对象
+            // console.log(Object.create(proxy) === proxy); // false
+            // console.log(Reflect.get(proxy, 'foo'));
+            // console.log(Reflect.get(myTarget, 'foo'));
+
+            // 数据绑定与可观察对象
+            // const userList = [];
+
+            // class User {
+            //     constructor(name) {
+            //         this.name_ = name;
+            //     }
+            // }
+
+            // const proxy = new Proxy(User, {
+            //     construct() {
+            //         const newUser = Reflect.construct(...arguments);
+            //         userList.push(newUser);
+            //         return newUser;
+            //     }
+            // });
+
+            // new proxy('John');
+            // new proxy('Jacob');
+            // new proxy('Jingleheimerschmidt');
+
+            // console.log(userList);
+
+            // apply()
+            // const myTarget = (name, age, id) => {
+            //     console.log(name, age, id, 'myTarget');
+            // }
+
+            // const proxy = new Proxy(myTarget, {
+            //     apply(target, thisArg, ...argumentsList) {
+            //         console.log('apply()');
+            //         return Reflect.apply(...arguments);
+            //     }
+            // });
+
+            // let argumentsList = ['wendy', 12, 123];
+            // proxy('wendy', 12, 123);
+            // proxy.apply(proxy, argumentsList);  // Function.prototype.apply(thisArg, argumentsList)
+            // proxy.call(this, 'wendy', 12, 123);// Function.prototype.call(thisArg, ...argumentsList)
+            // Reflect.apply(proxy, myTarget, argumentsList);
+
+            // 把集合绑定到一个事件分派程序，每次插入新实例时都会发送消息
+            // const userList = [];
+
+            // function emit(newValue) {
+            //     console.log(newValue);
+            // }
+            
+            // const proxy = new Proxy(userList, {
+            //     set(target, property, value, receiver) {
+            //         console.log(target, property, value);  // [], 0/1/length..., John/Jay/2...
+            //         const result = Reflect.set(...arguments);
+            //         if(result) {
+            //             emit(Reflect.get(target, property, receiver));  // get value
+            //         }
+            //         return result;
+            //     }
+            // });
+
+            // proxy.push('John', 'Jay');
+            // proxy.push('Jacob');
+            // proxy[proxy.length] = 'wendy';
+            // console.log(userList);
+
+            // const myArray = [1, 2, 3, 4, 5];
+            // console.log(typeof myArray);
+
+            // Function arguments
+            // function doAdd(num1, num2) {
+            //     console.log(num1, num2);
+            //     arguments[1] = 10;
+            //     console.log(num1, num2);
+            //     num2 = 300;
+            //     console.log(arguments[0], arguments[1]);
+            // }
+            // doAdd(1, 2);
+
+            // 反引号
+            let name = 'myname';
+            let age = 18;
+            console.log(`this is ${name}, age is ${age}`);
+            console.log("this is ${name}, age is ${age}");
+            console.log('this is ${name}, age is ${age}');
+        </script>
+    </body>
+</html>

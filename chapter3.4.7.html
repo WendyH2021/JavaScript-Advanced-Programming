@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>常用内置符号</title>
+    </head>
+    <body>
+        <script>
+            class Emitter {
+                constructor(max) {
+                    this.max = max;
+                    this.asyncIdx = 0;
+                }
+
+                async *[Symbol.asyncIterator]() {
+                    while(this.asyncIdx < this.max) {
+                        yield await new Promise((resolve) => resolve(this.asyncIdx++));
+                    }
+                }
+            }
+
+            async function asyncCount() {
+                let emitter = new Emitter(5);
+
+                // for await(const x of emitter) {
+                //     console.log(x);  //for-await-of 循环中，x is value, not IteratorResult对象
+                // }
+
+                let emitterIterator = emitter[Symbol.asyncIterator]();
+                console.log(await emitterIterator.next());  // IteratorResult 对象{value: 0, done: false}
+                console.log(await emitterIterator.next());
+                console.log(await emitterIterator.next());
+            }
+
+            asyncCount();
+
+        </script>
+    </body>
+</html>

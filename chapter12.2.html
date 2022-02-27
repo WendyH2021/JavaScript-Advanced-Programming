@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>BOM</title>
+    </head>
+    <body>
+        <script>
+            // window.open("http://www.wrox.com/", "_self");
+            // window.open("http://www.wrox.com/",
+            //             "wroxWindow",
+            //             "height=400,width=400,top=10,left=10,resizable=yes");
+
+            // 会显示屏蔽复选框吗 ？ 
+            // 执行结果
+            // IE Edge and chrome will not show checkbox
+            // alert("this is the first alert");
+            // alert("this is the second alert");
+            // alert("this is the third alert");
+
+            // 显示打印对话框
+            // window.print();
+
+            // 显示查找对话框，似乎木有效果哦！
+            // window.find();
+
+            // 查询字符串
+            // let getQueryStringArgs = function() {
+            //     // 取得没有开头问号的查询字符串
+            //     let qs = (location.search.length > 0 ? location.search.substring(1): "");
+                
+            //     // 保存数据的对象
+            //     let args = {};
+
+            //     // 把每个参数添加到args 对象
+            //     for(let item of qs.split("&").map(kv => kv.split("="))) {
+            //         let name = decodeURIComponent(item[0]);
+            //         let value = decodeURIComponent(item[1]);
+            //         if(name.length) {
+            //             args[name] = value;
+            //         }
+            //     }
+
+            //     return args;
+            // }
+
+            // 操作地址
+            location.assign("http://www.wrox.com");
+            // window.location = "http://www.wrox.com";
+            // location.href = "http://www.wrox.com";
+        </script>
+    </body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>可迭代对象</title>
+    </head>
+    <body>
+        <script>
+            // 实现iterable接口（Symbol.iterator）的为可迭代对象
+            // 实现iterator接口（next()方法）的为迭代器对象
+            // 实现的iterable接口应该返回迭代器对象
+            // 若该迭代器对象也实现了Symbol.iterator方法，则该迭代器对象也是可迭代对象
+
+            // class Counter {
+
+            //     constructor(limit) {
+            //         this.count = 1;
+            //         this.limit = limit;
+            //     }
+
+            //     next() {
+            //         if (this.count <= this.limit) {
+            //             return {done: false, value: this.count++};
+            //         } else {
+            //             return {done: true, value: undefined};
+            //         }
+            //     }
+            //     return() {
+            //         console.log('Exiting early');
+            //         return {done: true};
+            //     }
+            //     [Symbol.iterator] () {
+            //         return this;
+            //     }
+            // }
+
+            // let counter = new Counter(8);
+            // let counterIterator = counter[Symbol.iterator]();
+            // console.log(counter === counterIterator);
+            // console.log(counter.next());
+            // console.log(counterIterator.next());
+            // for (let i of counter) {
+            //     console.log(i);
+            //     if (i > 2) {
+            //         break;
+            //     }
+            // }
+
+            // console.log('---------');
+            // for (let i of counter) {
+            //     console.log(i);
+            // }
+
+            // 提前终止迭代器
+            // class Counter {
+            //     constructor(limit) {
+            //         this.limit = limit;
+            //     }
+
+            //     [Symbol.iterator]() {
+            //         let count = 1,
+            //             limit = this.limit;
+            //         return {
+            //             next() {
+            //                 if (count <= limit) {
+            //                     return {done: false, value: count++};
+            //                 } else {
+            //                     return {done: true};
+            //                 }
+            //             },
+            //             return() {
+            //                 console.log('Exiting early');
+            //                 return {done: true};
+            //             }
+            //         };
+            //     }
+            // }
+
+            // let counter1 = new Counter(5);
+
+            // for (let i of counter1) {
+            //     if (i > 2) {
+            //         break;
+            //     }
+            //     console.log(i);
+            // }
+            
+            // console.log('------anoter loop---------');
+            // for (let i of counter1) {
+            //     console.log(i);
+            // }
+
+            // 数组的迭代器 是否可关闭？
+            // let a = [1, 2, 3, 4, 5];
+            // for (let i of a) {
+            //     console.log(i);
+            //     if (i > 2) {
+            //         break;
+            //     }
+            // }
+
+            // console.log('-----------------');
+            // for (let i of a) {
+            //     console.log(i);
+            // }
+
+            let a = [1, 2, 3, 4, 5];
+            let iter = a[Symbol.iterator]();
+            console.log(iter);
+
+            iter.return = function() {
+                console.log('Exiting early');
+                return {done: true};
+            };
+
+            for (let i of iter) {
+                console.log(i);
+                if (i > 2) {
+                    break;
+                }
+            }
+
+            for (let i of iter) {
+                console.log(i);
+            }
+        </script>
+    </body>
+</html>

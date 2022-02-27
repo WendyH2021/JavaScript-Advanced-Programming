@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>事件处理程序</title>
+    </head>
+    <body>
+        <!-- 事件处理程序onclick -->
+        <!-- try/catch for 如果浏览器已加载HTML 元素，但尚未加载事件处理程序脚本，静默失败 -->
+        <!-- <input type="button" value="Click me" onclick="try{showMessage(this.value);}catch(ex){}" />
+        <script>
+            function showMessage(value) {
+                console.log(event.type);
+                console.log(value);
+            }
+        </script> -->
+        <!-- <form method="post">
+            <input type="text" name="username" value="" />
+            <input type="button" value="Echo Username"
+                onclick="console.log(username.value)" />
+        </form> -->
+        <!-- <input type="button" id="myBtn" value="Click me" />
+        <script>
+            let btn = document.getElementById("myBtn");
+            let handler = function() {
+                console.log(this.id);  // this指向元素有效
+            };
+            btn.addEventListener("click", handler, false);
+
+            // remove
+            // btn.removeEventListener("click", handler, false);
+        </script> -->
+        <!-- <input type="button" id="myBtn" value="Click me" />
+        <script>
+            document.body.onclick = function(event) {
+                console.log(event.currentTarget === document.body);
+                console.log(this === document.body);
+                console.log(event.target === document.getElementById("myBtn"));
+
+            }
+        </script> -->
+
+        <!-- stopPropagation()方法 -->
+        <input type="button" id="myBtn" value="Click me" />
+        <script>
+            let btn = document.getElementById("myBtn");
+
+            document.body.addEventListener("click", (event) => {  //事件捕获
+                console.log(event.eventPhase, "Body clicked")
+                // event.stopPropagation();  //是否阻止事件流传播
+            }, true);
+
+            btn.onclick = function(event) {                       //到达目标
+                console.log(event.eventPhase, "Clicked");
+            };
+
+            document.body.onclick = function(event) {             //事件冒泡
+                console.log(event.eventPhase, "Body clicked");
+            }
+
+        </script>
+    </body>
+</html>

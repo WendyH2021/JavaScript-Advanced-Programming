@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>JSON 对象</title>
+    </head>
+    <body>
+        <script>
+            let book = {
+                title: "Professional JavaScript",
+                authors: [
+                    "Nicholas C. Zakas",
+                    "Matt Frisbie"
+                ],
+                edition: 4,
+                year: 2017,
+                releaseDate: new Date(2017, 11, 1)
+            };
+            let jsonText = JSON.stringify(book);
+            let bookCopy = JSON.parse(jsonText,
+                (key, value) => "releaseDate" ? new Date(value) : value);
+            console.log(book);
+            console.log(jsonText);
+            console.log(bookCopy);  //Invalid Date
+            console.log(bookCopy.releaseDate.getFullYear());
+        </script>
+    </body>
+</html>

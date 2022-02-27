@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>阴影，渐变……</title>
+    </head>
+    <body>
+        <img src="./smile.PNG" alt="smile pic" style="display: none;" />
+        <canvas id="drawing" width="3000px" height="2000px" style="border: 1px solid black;">
+            A drawing of something
+        </canvas>
+        <script>
+            let drawing = document.getElementById("drawing");
+            // 确保浏览器支持<canvas>
+            if(drawing.getContext) {
+                let context = drawing.getContext("2d");
+
+                // //设置阴影
+                // context.shadowOffsetX = 5;
+                // context.shadowOffsetY = 5;
+                // context.shadowBlur = 4;
+                // context.shadowColor = "rgba(0, 0, 0, 0.5)";
+                // //绘制红色矩形
+                // context.fillStyle = "#ff0000";
+                // context.fillRect(10, 10, 50, 50);
+                // //绘制蓝色矩形
+                // context.fillStyle = "rgba(0, 0, 255, 1)";
+                // context.fillRect(30, 30, 50, 50);
+
+                // let gradient = context.createLinearGradient(30, 30, 70, 70);
+                // gradient.addColorStop(0, "white");
+                // gradient.addColorStop(1, "black");
+
+                // // 绘制红色矩形
+                // context.fillStyle = "#ff0000";
+                // context.fillRect(10, 10, 50, 50);
+
+                // // 绘制渐变矩形
+                // context.fillStyle = gradient;
+                // context.fillRect(30, 30, 50, 50);
+
+                // // 如果矩形没有绘制到渐变的范围内，则只会显示部分渐变
+                // context.fillStyle = gradient;
+                // context.fillRect(50, 50, 50, 50);
+
+                // 径向渐变（放射性渐变）
+                // let gradient = context.createRadialGradient(55, 55, 10, 55, 55, 30);
+                // gradient.addColorStop(0, "white");
+                // gradient.addColorStop(1, "black");
+                // // 绘制红色矩形
+                // context.fillStyle = "#ff0000";
+                // context.fillRect(10, 10, 50, 50);
+                // // 绘制渐变矩形
+                // context.fillStyle = gradient;
+                // context.fillRect(30, 30, 50, 50);
+
+                // 图案
+                // let image = document.images[0];
+                // image.onload = function() {
+                //     let pattern = context.createPattern(image, "repeat");
+                //     // 绘制矩形
+                //     context.fillStyle = pattern;
+                //     context.fillRect(10, 10, 1500, 1500);
+                // }
+
+                // 图像数据
+                let image = document.images[0];
+                let imageData, data, i, len, average, red, green, blue, alpha;
+
+                image.onload = function() {
+                    // 绘制图像
+                    context.drawImage(image, 0, 0);
+
+                    // 取得图像信息
+                    // 只有在画布没有加载跨域内容时才可以获取图像数据。
+                    // 如果画布上绘制的是跨域内容，则尝试获取图像数据会导致Javascript报错。
+                    imageData = context.getImageData(0, 0, image.width, image.height);
+                    data = imageData.data;
+                    for(i=0, len=data.length; i < len; i+=4) {
+                        red = data[i];
+                        green = data[i+1];
+                        blue = data[i+2];
+                        alpha = data[i+3];
+
+                        // 取得RGB 平均值
+                        average = Math.floor((red + green + blue)/3);
+
+                        // 设置颜色，不管透明度
+                        data[i] = average;
+                        data[i+1] = average;
+                        data[i+2] = average;
+                    }
+
+                    // 将修改后的数据写回ImageData并应用到画布上显示出来
+                    imageData.data = data;
+                    context.putImageData(imageData, 0, 0);
+                    console.log(context.putImageData);
+                }
+            }
+        </script>
+    </body>
+</html>

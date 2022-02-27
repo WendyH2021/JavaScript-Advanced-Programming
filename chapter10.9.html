@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Function</title>
+    </head>
+    <body>
+        <script>
+            // 箭头函数中的this会保留定义该函数时的上下文  (描述的是this.成员变量)
+            // function King() {
+            //     console.log('King', this);
+            //     this.royaltyName = "Henry";
+            //     // this 引用King的实例
+            //     setTimeout(() => console.log(this.royaltyName), 1000);
+            // }
+
+            function Queen() {
+                let royaltyName = 'Elizabeth';  // 私有变量
+                console.log('Queen', this);
+
+                // this 引用window对象，闭包可访问私有变量
+                setTimeout(function() { 
+                    console.log(this);  // Window对象
+                    console.log(royaltyName);}, 1000);  // Elizabeth
+            }
+
+            // this.royaltyName = 'Wendy';
+
+            // Queen Elizabeth  因为setTimeout 是异步函数，所以先打印Queen Elizabeth
+            // Henry
+            // Wendy
+            // new King();  
+            new Queen();  
+
+            // new.target
+            // function King() {
+            //     if(!new.target) {
+            //         throw 'King must be instantiated using "new"';
+            //     }
+            //     console.log('King instantiated using "new"');
+            // }
+            // new King();  // King instantiated using "new"
+            // King();  // Error: King must be instantiated using "new"
+
+            // function Outside(destination, view) { }
+            // let outside = new Outside('destination', 'view');
+            // console.log(outside);
+            // console.log(Outside.length);
+
+            // 作用域链 -描述的是私有变量，非this.成员变量
+            // var color = 'blue';
+            // function changeColor() {
+            //     var color = 'red';
+            //     var anotherColor = 'changeColor**'
+            //         swapColors(function () {
+            //         console.log(this);          // Window
+            //         console.log(this.color);    // blue
+            //         console.log(color);         // red
+            //         console.log('testCallback', anotherColor);  
+            //     });
+            // }
+
+            // function swapColors(testCallback) {
+            //     var color = 'pink';
+            //     var anotherColor = 'yellow';
+            //     testCallback();  // this 是 Window 对象
+            //     test2();         // 调用有效
+
+            //     function test2() {
+            //         console.log('test2**');
+            //         console.log('test2', anotherColor);  // 方法函数可用 anotherColor
+            //         console.log(this);
+            //         console.log(this.color);
+            //     }
+            // }
+
+            // changeColor();
+            // test2();
+
+            // apply() and call()
+            // window.color = 'red';
+            // let o = {
+            //     // color: 'blue'  // if comment this line, then o.color = undefined
+            // };
+
+            // function sayColor() {
+            //     console.log(this.color);
+            // }
+
+            // sayColor();
+
+            // sayColor.call(this);
+            // sayColor.call(window);
+            // sayColor.call(o);
+
+            // 递归
+            // const factorial = function f(num) {
+            //     if(num <= 1) {
+            //         return 1;
+            //     } else {
+            //         return num * f(num -1);
+            //     }
+            // };
+            // console.log(factorial(3));
+            // console.log(factorial);
+
+            // 斐波那契数列
+            // function fib(n) {
+            //     let num1 = 0;
+            //     let num2 = 1;
+            //     let temp = 0;
+            //     while(n > 0){     // n代表计算多少轮，初始化有第0和第1项，计算1轮的话即产生了第2项
+            //         temp = num1;
+            //         num1 = num2;  // num1是第n项的值，初始化是第0项的值，计算1轮的话即取得第1项的值
+            //         num2 = temp + num2;
+            //         n--;
+            //         console.log(num1, num2, n);
+            //     }
+            //     return num1;
+            // }
+            // console.log(fib(6));
+        </script>
+    </body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>自定义元素</title>
+    </head>
+    <body>
+        <script>
+            // document.body.innerHTML = `
+            // <x-foo >I'm inside a nonsense element.</x-foo >
+            // `;
+
+            // console.log(document.querySelector('x-foo') instanceof HTMLElement);
+
+            // 2.添加Web组件内容
+            // class FooElement extends HTMLElement {
+            //     constructor() {
+            //         super();
+
+            //         // this引用Web组件节点
+            //         // this.attachShadow({mode: 'open'});
+
+            //         // this.shadowRoot.innerHTML = `
+            //         // <p>I'm inside a custom element!</p>
+            //         // `;
+            //         this.innerHTML = `
+            //         <p>I'm inside a custom element!</p>
+            //         `;
+            //     }
+            // }
+            // customElements.define('x-foo', FooElement);
+
+            // document.body.innerHTML += `<x-foo></x-foo>`;
+
+            // 反射自定义元素属性，从DOM到JavaScript对象
+            // class FooElement extends HTMLElement {
+            //     static get observedAttributes() {
+            //         // 返回应该触发attributeChangedCallback()执行的属性
+            //         return ['bar'];
+            //     }
+
+            //     // get bar() {
+            //     //     return this.getAttribute('bar');
+            //     // }
+
+            //     // set bar(value) {
+            //     //     this.setAttribute('bar', value);
+            //     // }
+
+            //     attributeChangedCallback(name, oldValue, newValue) {
+            //         if (oldValue !== newValue) {
+            //             console.log(`${oldValue} -> ${newValue}`);
+
+            //             this[name] = newValue;
+            //         }
+            //     }
+            // }
+
+            // customElements.define('x-foo', FooElement);
+
+            // document.body.innerHTML = `<x-foo bar="false"></x-foo>`;
+
+            // document.querySelector('x-foo').setAttribute('bar', true);
+
+            // 反射自定义元素属性，从JavaScript对象反射到DOM
+            // document.body.innerHTML = `<x-foo></x-foo>`;
+
+            // class FooElement extends HTMLElement {
+            //     constructor() {
+            //         super();
+
+            //         this.bar = true;
+            //     }
+
+            //     get bar() {
+            //         return this.getAttribute('bar');
+            //     }
+
+            //     set bar(value) {
+            //         this.setAttribute('bar', value);
+            //     }
+            // }
+            // customElements.define('x-foo', FooElement);
+
+            // console.log(document.body.innerHTML);
+
+            // 升级自定义元素
+            // customElements.whenDefined('x-foo').then(() => console.log('defined!'));
+
+            // console.log(customElements.get('x-foo'));
+
+            // customElements.define('x-foo', class{});
+
+            // console.log(customElements.get('x-foo'));
+
+            // 在自定义元素有定义之前会创建HTMLUnknownElement对象
+            const fooElement = document.createElement('x-foo');
+
+            // 创建自定义元素
+            class FooElement extends HTMLElement{}
+            customElements.define('x-foo', FooElement);
+
+            console.log(fooElement instanceof FooElement);
+
+            // 强制升级
+            customElements.upgrade(fooElement);
+
+            console.log(fooElement instanceof FooElement);
+
+        </script>
+    </body>
+</html>

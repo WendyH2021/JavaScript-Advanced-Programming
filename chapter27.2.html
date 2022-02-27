@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>使用MessageChannel</title>
+    </head>
+    <body>
+        <script>
+            const workerScript = `
+            // 在监听器中存储全局messagePort
+            let messagePort = null;
+
+            function factorial(n) {
+                let result = 1;
+                while(n) { result *= n--; }
+                return result;
+            }
+
+            // 在全局对象上添加消息处理程序
+            self.onmessage = ({ports}) => {
+                // 只设置一次端口
+                if (!messagePort) {
+                    // 初始化消息发送窗口，
+                    // 给变量赋值并重置监听器
+                    messagePort = ports[0];
+                    self.onmessage = null;
+
+                    messagePort.onmessage = ({data}) => {
+                        // 收到消息后发送数据
+                        messagePort.postMessage(data + '! = ' + factorial(data));
+                    };
+                }
+            };`;
+
+            const workerScriptBlob = new Blob([workerScript]);
+            const workerScriptBlobUrl = URL.createObjectURL(workerScriptBlob);
+
+            const channel = new MessageChannel();
+            const factorialWorker = new Worker(workerScriptBlobUrl);
+
+            // 把MessagetPort对象发送到工作者线程
+            // 工作者线程负责处理初始化信道
+            factorialWorker.postMessage(null, [channel.port1]);
+
+            // 通过信道实际发送数据
+            channel.port2.onmessage = ({data}) => console.log(data);
+
+            // 工作者线程通过信道响应
+            channel.port2.postMessage(5);
+        </script>
+    </body>
+</html>

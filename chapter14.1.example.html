@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>document.write() Example</title>
+    </head>
+    <body>
+        <p>This is some content that you won't get to see because it will
+            be overwritten.
+        </p>
+        <script>
+            // window.onload = function() {
+                document.write("Hello world!");
+            // };
+        </script>
+        
+        <!-- 文本节点 -->
+        <!-- <div id="div1">Hello World!</div>
+        <script>
+            let div = document.getElementById("div1");
+            div.firstChild.nodeValue = "Some <strong>other</strong> message";  // 无效：纯文本输出
+        </script> -->
+
+        <!-- <script>
+            let element = document.createElement("div");
+            element.className = "message";
+
+            let textNode = document.createTextNode("Hello world!");
+            element.appendChild(textNode);
+
+            let anotherTextNode = document.createTextNode("Yippee!");
+            element.appendChild(anotherTextNode);
+
+            document.body.appendChild(element);
+
+            alert(element.childNodes.length);
+
+            element.normalize();
+            alert(element.childNodes.length);
+            alert(element.firstChild.nodeValue);
+        </script> -->
+
+        <!-- <div id="div1"></div>
+        <script>
+            var script = document.createElement("script");
+            var code = "function sayHi(){alert('hi');} sayHi();";
+            try {
+                script.appendChild(document.createTextNode(code));
+            } catch (ex) {
+                script.text = code;
+            }
+            document.body.appendChild(script);
+            // sayHi();
+            // 通过innerHTML 属性创建的<script>元素永远不会执行
+            // document.getElementById("div1").innerHTML = script;
+        </script> -->
+
+        <!-- <script>
+            // 通过 DOM 编程创建table元素，HTML DOM
+            // 创建表格
+            let table = document.createElement("table");
+            table.border = 1;
+            table.width = "100%";
+
+            // 创建表体
+            let tbody = document.createElement("tbody");
+            table.appendChild(tbody);
+
+            // 创建第一行
+            tbody.insertRow(0);
+            tbody.rows[0].insertCell(0);
+            tbody.rows[0].cells[0].appendChild(document.createTextNode("Cell 1,1"));
+            tbody.rows[0].insertCell(1);
+            tbody.rows[0].cells[1].appendChild(document.createTextNode("Cell 2,1"));
+
+            // 创建第二行
+            tbody.insertRow(1);
+            tbody.rows[1].insertCell(0);
+            tbody.rows[1].cells[0].appendChild(document.createTextNode("Cell 1,2"));
+            tbody.rows[1].insertCell(1);
+            tbody.rows[1].cells[1].appendChild(document.createTextNode("Cell 2,2"));
+
+            // 把表格添加到文档主体
+            document.body.appendChild(table);
+
+        </script>
+         -->
+    </body>
+</html>

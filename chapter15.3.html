@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>CSS 类扩展</title>
+    </head>
+    <body>
+        <!-- 有空格，因此有一个文本节点 -->
+        <!-- 如果没有内容，连空格都没有，那么没有文本节点，div.firstChild == null -->
+        <!-- <div class="className01 className02"> </div>
+        <div class="className01"> </div>
+        <div class="className02"> </div>
+        <script>
+            // 1. getElementsByClassName()
+            // className01 and className02 都包含的元素才会被选中
+            let myClass = document.getElementsByClassName("className02 className01");
+            console.log(myClass);
+            for(let item of myClass) {
+                // 如果 item.firstChild == null, 那么会报错！！
+                item.firstChild.nodeValue = "replace space";
+            }
+        </script> -->
+
+        <!-- <div id="div" class="bd user disabled">...</div>
+        <script>
+            // 要删除"user"类
+            let targetClass = "user";
+
+            // 把类名拆成数组
+            let div = document.getElementById("div");
+            let classNames = div.className.split(/\s+/);
+            console.log(classNames);
+
+            // 找到要删除类名的索引
+            let idx = classNames.indexOf(targetClass);
+
+            // 如果有则删除
+            if(idx > -1) {
+                classNames.splice(idx, 1);
+                console.log(idx, classNames);
+            }
+
+            // 重新设置类名
+            div.className = classNames.join(" ");
+
+            // HTML5 classList属性，推荐使用！！
+            div.classList.remove("disabled");
+            div.classList.add("current");
+            div.classList.toggle("user");
+        </script> -->
+
+        <!-- <div id="myDiv" data-appId="12345" data-myname="Nicholas"></div>
+        <script>
+            let div = document.getElementById("myDiv");
+
+            // 取得自定义数据属性的值
+            let appId = div.dataset.appid;
+            let myName = div.dataset.myname;
+            console.log(appId);
+
+            // 设置自定义数据属性的值
+            div.dataset.appid = 23456;
+            div.dataset.myname = "Michael";
+
+            // 有"myname"吗？
+            if(div.dataset.myname) {
+                console.log(`Hello, ${div.dataset.myname}`);
+            }
+        </script> -->
+
+        <!-- <div id="content">
+            <p>This is a <strong>paragraph</strong> with a list following it.</p>
+            <ul>
+                <li>Item 1</li>
+                <li>Item 2</li>
+                <li>Item 3</li>
+            </ul>
+        </div>
+        <script>
+            let div = document.getElementById("content");
+
+            // 不包含任何HTML 标签，则直接生成一个文本节点
+            console.log(div.innerHTML);
+            div.innerHTML = "Hello world"
+            console.log(div.innerHTML);
+
+            // 给innerHTML 设置包含HTML 的字符串时
+            div.innerHTML = "Hello & welcome, <b>\"reader\"!</b>";
+            console.log(div.innerHTML);
+        </script> -->
+
+        <form action="">
+            <input type="text" id="name" />
+            <label for="name">name</label>
+        </form>
+        <script>
+            document.forms[0].scrollIntoView(false);
+        </script>
+    </body>
+</html>

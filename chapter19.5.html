@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>富文本编辑</title>
+    </head>
+    <body>
+        <h1>开始</h1>
+        <div>
+            <button onclick="selectall()">selectall</button>
+            <button onclick="bold()">bold</button>
+            <button onclick="italic()">italic</button>
+            <button onclick="createlink()">createlink</button>
+            <button onclick="formatblock()">formatblock</button>
+        </div>
+        
+        <iframe name="richedit" style="height: 200px; width: 500px;"></iframe>
+
+        <script>
+            window.addEventListener("load", () => {
+                frames["richedit"].document.designMode = "on";
+            });
+
+            frames["richedit"].document.body.innerHTML = "I am a lucky girl";
+
+            function selectall() {
+                frames["richedit"].document.execCommand("selectall", false, null);
+            }
+            
+            function bold() {
+                // 在内嵌窗格中切换粗体文本样式
+                frames["richedit"].document.execCommand("bold", false, null);
+            }
+            
+            function italic() {
+                // 在内嵌窗格中切换斜体文本样式
+                frames["richedit"].document.execCommand("italic", false, null);
+            }
+            
+            function createlink() {
+                // 在内嵌窗格中创建指向www.wrox.com 的链接
+                frames["richedit"].document.execCommand("createlink", false,
+                    "http://www.wrox.com");
+            }
+
+            function formatblock() {
+                // 在内嵌窗格中为内容添加<h1>标签
+                frames["richedit"].document.execCommand("formatblock", false, "<h1>");
+            }
+            
+        </script>
+    </body>
+</html>

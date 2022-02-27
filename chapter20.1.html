@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>SharedArrayBuffer</title>
+    </head>
+    <body>
+        <script>
+            const workerScript = `
+            self.onmessage = ({data}) => {
+                const view = new Uint32Array(data);
+
+                // 执行1000 000 次加操作
+                for(let i = 0; i < 1E6; ++i) {
+                    // 线程不安全加操作会导致资源争用
+                    view[0] += 1;
+                }
+                console.log(view[0]);
+
+                self.postMessage(null);
+            };
+            `;
+
+            const workerScriptBlobUrl = URL.createObjectURL(new Blob([workerScript]));
+
+            // 创建容量为4的工作线程池
+            const workers = [];
+            for(let i = 0; i < 4; ++i) {
+                workers.push(new Worker(workerScriptBlobUrl));
+            }
+
+            // 在最后一个工作线程完成后打印出最终值
+            let responseCount = 0;
+            for(const worker of workers) {
+                worker.onmessage = () => {
+                    if(++responseCount == workers.length) {
+                        console.log(`Final buffer value: ${view[0]}`);
+                    }
+                };
+            }
+
+            // 初始化SharedArrayBuffer
+            // 请注意，作为对Spectre的响应，所有主流浏览器均默认于2018年1月5日禁用SharedArrayBuffer。
+            // const sharedArrayBuffer = new SharedArrayBuffer(4);
+            // 改用ArrayBuffer, 发现各个线程所用的缓冲区是隔离的，也许只有用SharedArrayBuffer才是共享的
+            const sharedArrayBuffer = new ArrayBuffer(4);
+            const view = new Uint32Array(sharedArrayBuffer);
+            view[0] = 1;
+            const test = new Uint32Array(sharedArrayBuffer);
+            test[0] = 22;
+            console.log(view[0], test[0]);
+
+            // 把SharedArrayBuffer 发送到每个工作线程
+            for(const worker of workers) {
+                worker.postMessage(sharedArrayBuffer);
+            }
+        </script>
+    </body>
+</html>

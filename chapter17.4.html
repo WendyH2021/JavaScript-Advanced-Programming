@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>HTML5 事件</title>
+    </head>
+    <body>
+        <!-- <div id="myDiv">Right click or Ctrl+click me to get a custom context menu.
+            Click anywhere else to get the default context menu. 
+        </div>
+        <ul id="myMenu" style="position:absolute;visibility:hidden;background-color:silver">
+            <li><a href="http://www.somewhere.com"> somewhere</a></li>
+            <li><a href="http://www.wrox.com">Wrox site</a></li>
+            <li><a href="http://www.somewhere-else.com">somewhere-else</a></li>
+        </ul>
+        <div>
+            visibility: hidden will keep the physical space.<br/>
+            display: none will not keep the physical space in the Webpage.<br/>
+            position: absolute 该元素脱离文档流
+        </div>
+        <script>
+            window.addEventListener("load", (event) => {
+                let div = document.getElementById("myDiv");
+
+                div.addEventListener("contextmenu", (event) => {
+                    event.preventDefault();
+
+                    let menu = document.getElementById("myMenu");
+                    menu.style.left = event.clientX + "px";
+                    menu.style.top = event.clientY + "px";
+                    menu.style.visibility = "visible";
+                });
+
+                document.addEventListener("click", (event) => {
+                    document.getElementById("myMenu").style.visibility = "hidden";
+                });
+            });
+        </script> -->
+
+        <!-- 自定义DOM 事件 -->
+        <div id="myDiv"></div>
+        <script>
+            let div = document.getElementById("myDiv");
+            let event;
+            div.addEventListener("myevent", (event) => {
+                console.log("DIV: " + event.detail);
+            });
+            document.addEventListener("myevent", (event) => {
+                console.log("DOCUMENT: ", event.detail);
+            });
+            if(document.implementation.hasFeature("CustomEvents", "3.0")) {
+                event = document.createEvent("CustomEvent");
+                event.initCustomEvent("myevent", true, false, "Hello World!");
+                div.dispatchEvent(event);
+            }
+        </script>
+    </body>
+</html>

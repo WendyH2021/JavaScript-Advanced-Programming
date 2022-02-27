@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>影子DOM</title>
+    </head>
+    <body>
+        <script>
+            // document.body.innerHTML = `
+            //     <div id="foo"></div>
+            //     <div id="bar"></div>
+            // `;
+
+            // const foo = document.querySelector('#foo');
+            // const bar = document.querySelector('#bar');
+
+            // const openShadowDOM = foo.attachShadow({mode: 'open'});
+            // const closedShadowDOM = bar.attachShadow({mode: 'closed'});
+
+            // console.log(openShadowDOM);
+            // console.log(closedShadowDOM);
+
+            // console.log(foo.shadowRoot);
+            // console.log(bar.shadowRoot);
+
+            // 3.使用影子DOM
+            // for (let color of ['red', 'green', 'blue']) {
+            //     const div = document.createElement('div');
+            //     const ShadowDOM = div.attachShadow({mode: 'open'});
+
+            //     document.body.appendChild(div);
+
+            //     ShadowDOM.innerHTML = `
+            //         <p>Make me ${color}</p>
+
+            //         <style>
+            //             p {
+            //                 color: ${color};
+            //             }
+            //         </style>
+            //     `;
+            // }
+
+            // function countP(node) {
+            //     console.log(node.querySelectorAll('p').length);
+            // }
+
+            // countP(document);
+
+            // for(let element of document.querySelectorAll('div')) {
+            //     countP(element.shadowRoot);
+            // }
+
+            // 影子DOM 并非铁板一块。HTML元素可以在DOM树间无限制移动
+            // document.body.innerHTML = `
+            // <div></div>
+            // <p id="foo">Move me</p>
+            // `;
+
+            // const divElement = document.querySelector('div');
+            // const pElement = document.querySelector('p');
+
+            // const shadowDOM = divElement.attachShadow({ mode: 'open'});
+
+            // // 从父DOM 中移除元素
+            // divElement.parentElement.removeChild(pElement);
+
+            // // 把元素添加到影子DOM
+            // shadowDOM.appendChild(pElement);
+
+            // // 检查元素是否移动到了影子DOM中
+            // console.log(shadowDOM.innerHTML);
+
+            // 合成与影子DOM 槽位
+            // document.body.innerHTML = `
+            // <div id="foo">
+            //     <p>Foo</p>
+            // </div>
+            // `;
+
+            // // 优先渲染了影子DOM，而忽略了原本 影子宿主 的子树
+            // // setTimeout(() => document.querySelector('div').attachShadow({mode:'open'}), 1000);
+
+            // document.querySelector('div').attachShadow({mode: 'open'})
+            //     .innerHTML = `<div id="bar"><slot></slot></div>`;
+
+            // console.log(document.querySelector('p').parentElement);
+
+            // 下面是使用槽位（slot）改写的前面红/绿/蓝子树的例子：
+            // for (let color of ['red', 'green', 'blue']) {
+            //     const divElement = document.createElement('div');
+            //     divElement.innerText = `Make me ${color}`;
+            //     document.body.appendChild(divElement);
+
+            //     divElement.attachShadow({mode: 'open'}).innerHTML = `
+            //         <p><slot></slot></p>
+            //         <style>
+            //             p {
+            //                 color: ${color};
+            //             }
+            //         </style>
+            //     `;
+            // }
+
+            // 命名槽位
+            // document.body.innerHTML = `
+            // <div>
+            //     <p slot="foo">Foo</p>
+            //     <p slot="bar">Bar</p>
+            // </div>
+            // `;
+
+            // document.querySelector('div').attachShadow({mode: 'open'}).innerHTML = `
+            // <slot name="bar"></slot>
+            // <slot name="foo"></slot>
+            // `;
+
+            // 5.事件重定向
+            // 创建一个元素作为影子宿主
+            document.body.innerHTML = `
+            <div onclick="console.log('Handled outside:', event.target);"></div>
+            `;
+
+            // 添加影子DOM 并向其中插入HTML
+            document.querySelector('div').attachShadow({mode: 'open'}).innerHTML = `
+            <button onclick="console.log('Handled inside:', event.target)">Foo</button>
+            `;
+
+            // 点击按钮时
+            // Handled inside: ...
+            // Handled outside: ...
+        </script>
+    </body>
+</html>
